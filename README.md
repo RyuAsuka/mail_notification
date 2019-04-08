@@ -1,5 +1,7 @@
 # Mail Notification
 
+![python-version](https://img.shields.io/pypi/pyversions/Django.svg)
+
 This simple python script is used to notify you that your task has completed.
 
 You should prepare an e-mail account and setup it with SMTP/POP3/IMAP authentication code.
