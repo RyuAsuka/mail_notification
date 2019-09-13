@@ -1,50 +1,60 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
+from NewEmail import Email
 
 
 class MailSender(object):
     """
     Email notification class. You can use it in your code. When a long-time mission completes,
-    the class will send a notification to you.
-    Using:
-    sender = MailSender(sender, subject, message, mail_host=xxx, mail_user=xxx, mail_pass=xxx)
-    <your codes>
-    sender.send_mail(successful_message)
+    this module will send a notification to you.
+
+    Usage:
+        email = Email(sender, receivers, subject, content)
+        sender = MailSender(server_address, username, password)
+        (your code here)
+        sender.send_mail(email, success_msg, failure_msg)
     """
-    def __init__(self, sender, subject, message, *args, **kwargs):
+    def __init__(self, mail_server_address=None, mail_username=None, mail_password=None):
         """
         Initialize the mail server. You must provide the information of your mail server.
-        :param subject: String. The subject of your mail.
-        :param message: String. The message body of your mail.
-        :param args:
-        :param kwargs: Support these three parameters:
-        - mail_host: your mail host server.
-        - mail_user: your username of the mail host server.
-        - mail_pass: your password of your mail host server. On some servers it may be an authentication code.
-        """
-        self.mail_host = kwargs['mail_host']
-        self.mail_user = kwargs['mail_user']
-        self.mail_pass = kwargs['mail_pass']
-        self.sender = sender
-        self.receivers = [sender]
 
-        self.message = MIMEText(message, 'plain', 'utf-8')
-        self.message['From'] = Header(sender, 'utf-8')
-        self.message['To'] = Header(sender, 'utf-8')
-        self.message['Subject'] = Header(subject, 'utf-8')
+        Args:
+            mail_server_address (str): The host address of your mail server.
+            mail_username (str): Your username.
+            mail_password (str): Your password.
+        """
+        self.mail_server_address = mail_server_address
+        self.mail_username = mail_username
+        self.mail_password = mail_password
 
-    def send_mail(self, return_msg):
+    def send_mail(self, email, success_msg, failure_msg, debug=False):
         """
-        Send the email to yourself.
-        :param return_msg: If the mail is sent successfully, return a notification message.
-        :return:
+        Login to mail server and send mail to receivers.
+
+        Args:
+            email (Email): The email to be sent.
+            success_msg (str): If the email is sent successfully, return the message.
+            failure_msg (str): If the email failed to send, return the error message.
+            debug (bool): Enables the debug functions.
+
+        Returns:
+            str: The success or failure messages.
+        Raises:
+            smtplib.SMTPException: SMTP Exception
         """
+        mail_body = MIMEText(email.content, 'plain', 'utf-8')
+        mail_body['From'] = Header(email.sender, 'utf-8')
+        mail_body['To'] = Header(email.receivers, 'utf-8')
+        mail_body['Subject'] = Header(email.subject, 'utf-8')
         try:
-            smtpobj = smtplib.SMTP()
-            smtpobj.connect(self.mail_host, 25)
-            smtpobj.login(self.mail_user, self.mail_pass)
-            smtpobj.sendmail(self.sender, self.receivers, self.message.as_string())
-            print(return_msg)
-        except smtplib.SMTPException:
-            print("Failed to send mail.")
+            smtp_obj = smtplib.SMTP()
+            smtp_obj.connect(self.mail_server_address, 25)
+            smtp_obj.login(self.mail_username, self.mail_password)
+            smtp_obj.sendmail(email.sender, email.receivers, mail_body.as_string())
+            return success_msg
+        except smtplib.SMTPException as e:
+            if debug:
+                print(e)
+            return failure_msg
+
