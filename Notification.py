@@ -45,7 +45,10 @@ class MailSender(object):
         """
         mail_body = MIMEText(email.content, 'plain', 'utf-8')
         mail_body['From'] = Header(email.sender, 'utf-8')
-        mail_body['To'] = Header(email.receivers, 'utf-8')
+        if len(email.receivers) == 1:
+            mail_body['To'] = Header(email.receivers[0], 'utf-8')
+        elif len(email.receivers) > 1:
+            mail_body['To'] = Header(','.join(email.receivers), 'utf-8')
         mail_body['Subject'] = Header(email.subject, 'utf-8')
         try:
             smtp_obj = smtplib.SMTP()
