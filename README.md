@@ -6,17 +6,24 @@ This simple python script is used to notify you that your task has completed.
 
 You should prepare an e-mail account and setup it with SMTP/POP3/IMAP authentication code.
 
-Using:
+Usage:
 
 This script can be imported into the project of yourself. After your code completes running, this module will send a mail to you.
 
 It is adapted to a long loop in Python.
 
 ```python
+from NewEmail import Email
 from Notification import MailSender
 
-sender = MailSender(sender, subject, message, mail_host=mail_host, mail_user=mail_user, mail_pass=mail_pass)
+
+# Build an email
+mail = Email(sender, receiver, subject, content)
+# Define a mail sender
+sender = MailSender(mail_server_address="your e-mail smtp server", mail_username="your username", mail_password="your password")
 # your code here
-sender.send_mail(success_message)
+sender.send_mail(mail, success_message, fail_message)
 
 ```
+
+If the code runs successfully, you (or other receivers) will receive the mail.
