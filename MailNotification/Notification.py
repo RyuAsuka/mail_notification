@@ -1,7 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
-from NewEmail import Email
+from MailNotification.NewEmail import Email
 
 
 class MailSender(object):

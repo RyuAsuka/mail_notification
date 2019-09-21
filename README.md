@@ -13,8 +13,8 @@ This script can be imported into the project of yourself. After your code comple
 It is adapted to a long loop in Python.
 
 ```python
-from NewEmail import Email
-from Notification import MailSender
+from MailNotification.NewEmail import Email
+from MailNotification.Notification import MailSender
 
 
 # Build an email
