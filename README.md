@@ -1,6 +1,6 @@
 # Mail Notification
 
-![python-version](https://img.shields.io/pypi/pyversions/Django.svg) ![module-version](https://img.shields.io/badge/version-1.0-brightgreen.svg)
+![python-version](https://img.shields.io/pypi/pyversions/Django.svg) ![module-version](https://img.shields.io/badge/version-1.0.1-green.svg) ![license](https://img.shields.io/github/license/RyuAsuka/mail_notification)
 
 This simple python script is used to notify you that your task has completed.
 
