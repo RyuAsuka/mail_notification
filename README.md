@@ -6,7 +6,7 @@ This simple python script is used to notify you that your task has completed.
 
 You should prepare an e-mail account and setup it with SMTP/POP3/IMAP authentication code.
 
-# Installation
+## Installation
 
 To install this small package, just clone this repository and run setup.py.
 
@@ -16,7 +16,7 @@ $ cd mail_notification
 $ python3 setup.py install
 ```
 
-# Usage
+## Usage
 
 This script can be imported into the project of yourself. After your code completes running, this module will send a mail to you.
 
